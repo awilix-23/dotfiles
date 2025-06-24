@@ -1,0 +1,163 @@
+# Sway configuration file
+# Read `man 5 sway` for a complete reference.
+# Notes:
+#   + Mod4 = Logo key ; Mod1 = Alt
+#   + Pass the file command to swaymsg so that the resulting window can be
+#     opened on the original workspace that the command was run on.
+#   + Name of outputs: `swaymsg -t get_outputs`
+#   + Name of inputs: `swaymsg -t get_inputs`
+#   + Sway has a scratchpad, don't have a use for it as of now
+################################################################# Initialization
+include /etc/sway/config.d/*
+include workspace_rules
+include clamshell
+include style
+
+exec wl-paste -t text --watch clipman store --no-persist
+exec /usr/lib/polkit-kde-authentication-agent-1
+exec waybar
+
+set $mod Mod1
+set $left h
+set $down j
+set $up k
+set $right l
+
+set $term foot
+set $menu wmenu-run.bash
+
+exec swayidle -w \
+  timeout 600 'swaylock -f -c 000000' \
+  timeout 1200 'swaymsg "output * power off"' \
+  resume 'swaymsg "output * power on"' \
+  before-sleep 'swaylock -f -c 000000'
+
+output * bg ~/Desktop/dotfiles/assets/delta-halo.jpg fill
+
+default_border pixel 2
+client.focused $green $base $text $green $green
+client.unfocused $base $base $text $base $base
+floating_maximum_size 1280 x 720
+floating_minimum_size 800 x 450
+
+font pango:monospace 12
+########################################################################## Input
+input "2:14:SynPS/2_Synaptics_TouchPad" {
+    dwt enabled
+    tap disabled
+    natural_scroll disabled
+    middle_emulation enabled
+}
+
+input "type:keyboard" {
+    xkb_options caps:swapescape,compose:lwin
+    xkb_numlock enable
+}
+################################################################### Key bindings
+bindsym $mod+Shift+Escape exec swaynag -t warning -m 'You pressed the exit \
+  shortcut. Do you really want to exit sway? This will end your Wayland \
+  session.' -B 'Yes, exit sway' 'swaymsg exit'
+
+bindsym F1 exec $term -T "float" -e pass_menu.bash
+bindsym F2 exec $term -T "float" -e newsboat
+bindsym F3 exec $term -T "float" -e nvim -c VimwikiIndex
+
+bindsym F5 exec $term -T "float" -e cmus_menu.bash
+bindsym F6 exec playerctl --player=cmus play-pause
+bindsym F7 exec playerctl --player=cmus previous
+bindsym F8 exec playerctl --player=cmus next
+
+bindsym F9 exec record.bash "1"
+bindsym $mod+F9 exec record.bash
+bindsym F10 exec pomodoro.bash "1"
+bindsym $mod+F10 exec pomodoro.bash
+
+bindsym $mod+d output "LVDS-1" toggle
+bindsym $mod+Return exec $menu
+bindsym $mod+Shift+c reload
+bindsym $mod+q exec $term
+bindsym $mod+c kill
+
+bindsym Print exec grim -g "$(slurp)" ~/Pictures/screenshot.png
+bindsym $mod+Print exec grim -g "$(slurp -p)" -t ppm - | convert - -format \
+  '%[pixel:p{0,0}]' txt:- | tail -n 1 | cut -d ' ' -f 4 | wl-copy 
+
+bindsym XF86AudioRaiseVolume exec wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+bindsym xF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym xF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym xF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym XF86MonBrightnessUp exec brightnessctl set 5%+
+
+# floating_modifier $mod normal
+# bindsym $mod+Shift+$left move left
+# bindsym $mod+Shift+$down move down
+# bindsym $mod+Shift+$up move up
+# bindsym $mod+Shift+$right move right
+
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+
+mode "move" {
+  bindsym $left focus left
+  bindsym $down focus down
+  bindsym $up focus up
+  bindsym $right focus right
+
+  bindsym 1 move container to workspace number 1
+  bindsym 2 move container to workspace number 2
+  bindsym 3 move container to workspace number 3
+  bindsym 4 move container to workspace number 4
+  bindsym 5 move container to workspace number 5
+  bindsym 6 move container to workspace number 6
+  bindsym 7 move container to workspace number 7
+  bindsym 8 move container to workspace number 8
+  bindsym 9 move container to workspace number 9
+  bindsym 0 move container to workspace number 10
+
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+bindsym $mod+m mode "move"
+
+bindsym $mod+f fullscreen
+bindsym $mod+b splith
+bindsym $mod+v splitv
+
+# bindsym $mod+s layout stacking
+# bindsym $mod+w layout tabbed
+# bindsym $mod+e layout toggle split
+
+# bindsym $mod+Space floating toggle
+# bindsym $mod+Shift+Space focus mode_toggle
+# bindsym $mod+a focus parent
+
+mode "resize" {
+  bindsym $left resize shrink width 10px
+  bindsym $down resize grow height 10px
+  bindsym $up resize shrink height 10px
+  bindsym $right resize grow width 10px
+
+  bindsym Left resize shrink width 10px
+  bindsym Down resize grow height 10px
+  bindsym Up resize shrink height 10px
+  bindsym Right resize grow width 10px
+
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"

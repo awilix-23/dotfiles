@@ -1,0 +1,11 @@
+assign [title="work_terminal" app_id="foot"] 1
+assign [app_id="zathura"] 2
+assign [app_id="qutebrowser"] 3
+assign [title="music" app_id="foot"] 9
+
+for_window [title="float" app_id="foot"] floating enabled
+for_window [class="Pinentry-gtk"] floating enabled
+for_window [class="feh"] floating enabled
+for_window [app_id="mpv"] floating enabled
+
+exec ~/.config/sway/scripts/init_apps.bash
