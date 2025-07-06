@@ -17,8 +17,9 @@ promptinit
 # End of lines added by compinstall
 
 ####################################################### Lines configured by user
-PROMPT='[%F{blue}%m%f %F{cyan}%B%~%b%f]%# '
+PROMPT='%F{1}[%f%F{6}%n%f%F{1}@%m%f %F{3}%2~%f%F{1}]%f%F{3}%#%f '
 source ~/.zsh_aliases
+source ~/.local/comp_chem_scripts/aliases
 eval "$(zoxide init zsh)"
 export MANPAGER='nvim +Man!'
 

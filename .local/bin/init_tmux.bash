@@ -6,7 +6,7 @@ if [[ $# -eq 1 ]]; then
   selected=$1
 else
   # Add directories to list :3
-  selected=$(find ~/Documents/Spring_2025 ~/work ~/work/Embedding ~/Desktop -mindepth 1 -maxdepth 1 -type d | fzf)
+  selected=$(find ~/Documents/Spring_2025 ~/work ~/work/Embedding ~/Desktop ~/Desktop/odin_project -mindepth 1 -maxdepth 1 -type d | fzf)
 fi
 
 if [[ -z $selected ]]; then

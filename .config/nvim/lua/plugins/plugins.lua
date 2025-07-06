@@ -20,16 +20,17 @@ return {
     opts = {
       auto_install = false,
       ensure_installed = {
-        "python",
+        "python", "lua",
+        "markdown", "latex",
+        "html", "css", "javascript",
         "bash",
-        "latex",
-        "fortran",
         "c",
       },
       highlight = { enable = true },
     }
   },
 
+  -- also code this one 
   { "m4xshen/autoclose.nvim",
     name = "autoclose"
   },
@@ -39,5 +40,13 @@ return {
     init = function()
       vim.g.vimwiki_list = {{path = '/wiki'}}
     end
-  }
+  },
+
+  -- Just code this yourself :)
+  -- { "theJian/vim-invert-number-row",
+  --   name = "invert-numrow",
+  --   init = function()
+  --     vim.g.invertmode = 'i'
+  --   end
+  -- }
 }
