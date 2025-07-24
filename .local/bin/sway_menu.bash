@@ -13,7 +13,7 @@ case ${SELECTED} in
         pkill wlsunset
         exit 0
       fi
-      wlsunset -g 0.7 & disown
+      wlsunset -g 0.65 & disown
       break ;;
     "Inhibit_Idle") # assumes foot is always open
       dunstify "sway_menu" "not working properly"
