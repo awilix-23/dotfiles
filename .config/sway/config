@@ -24,7 +24,7 @@ set $up k
 set $right l
 
 set $term foot
-set $menu wmenu-wrap.bash -t run
+set $menu wmenu_wrapper -r
 
 exec swayidle -w \
   timeout 600 'swaylock -f -c 000000' \
@@ -58,9 +58,9 @@ bindsym $mod+Shift+Escape exec swaynag -t warning -m 'You pressed the exit \
   shortcut. Do you really want to exit sway? This will end your Wayland \
   session.' -B 'Yes, exit sway' 'swaymsg exit'
 
-bindsym F1 exec $term -T "float" -e pass_menu.bash
+bindsym F1 exec $term -T "float" -e pass_menu
 # bindsym F2 exec $term -T "float" -e newsboat
-bindsym F3 exec sway_menu.bash
+bindsym F3 exec sway_menu
 
 bindsym F5 exec $term -T "float" -e ncmpcpp
 bindsym F6 exec mpc toggle
@@ -71,6 +71,8 @@ bindsym $mod+Return exec $menu
 bindsym $mod+Shift+c reload
 bindsym $mod+q exec $term
 bindsym $mod+c kill
+
+bindsym $mod+e exec explorer
 
 bindsym Print exec grim -g "$(slurp)" ~/Pictures/screenshot.png
 bindsym $mod+Print exec grim -g "$(slurp -p)" -t ppm - | convert - -format \

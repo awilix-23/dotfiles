@@ -1,0 +1,48 @@
+#!/bin/bash
+# Purpose: wmenu and wmenu-run wrapper to save styling
+################################################################################
+help() {
+    local script_name=$(basename "$0")  
+    echo
+    echo "Usage: $script_name [options...]"
+    echo
+    echo "Optional arguments:"
+    echo "-h, --help                Display this message again :3"
+    echo "-r, --run                 Whether to use `wmenu-run` instead"
+    echo "-p, --prompt  [STRING]    Custom prompt to use"
+    echo
+}
+################################################################################
+CONFIG="-i -N 1e1e2e -n cdd6f4 -M 89dceb -m 1e1e2e -S f5c2e7 -s 1e1e2e"
+PROMPT="wmenu"
+RUN=0
+
+while :; do
+  case $1 in
+    -h|--help)
+      help
+      exit ;;
+    -r|--run)
+      RUN=1
+      shift ;;
+    -p|--prompt)
+      PROMPT=$2
+      shift ;;
+    --)
+      shift
+      break ;;
+    -?*)
+      printf 'WARN: Unknown option (ignoring): %s\n' "$1" >&2 ;;
+    *)
+      break ;;
+  esac
+  shift
+done
+################################################################################
+if [[ ${RUN} -eq 1 ]]; then
+  exec /usr/bin/wmenu-run ${CONFIG} -f "RobotoMonoNerdFont 11" -p "[${PROMPT}] "
+else
+  exec /usr/bin/wmenu ${CONFIG} -f "RobotoMonoNerdFont 11" -p "[${PROMPT}] "
+fi
+
+exit 0

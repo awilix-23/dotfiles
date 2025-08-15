@@ -1,4 +1,4 @@
 .config/nvim/spell/
 .config/mpd/database
 .config/ncmpcpp/error.log
-.local/bin/gitty.bash
+.local/bin/gitty

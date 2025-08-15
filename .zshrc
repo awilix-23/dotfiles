@@ -27,7 +27,7 @@ source ${PLUGIN_DIR}/zsh-autosuggestions/zsh-autosuggestions.zsh
 #
 fzf_history() {
   local selected
-  selected=$(cat ${HISTFILE} | fzf)
+  selected=$(cat ${HISTFILE} | fzf --height 50%)
   if [[ -n ${selected} ]]; then
     LBUFFER+=${selected}
   fi

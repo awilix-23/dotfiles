@@ -16,30 +16,35 @@ tooltip {
   color: #cdd6f4;
 }
 
-#network, #memory, #cpu, #battery, #idle_inhibitor {
+#network, #memory, #cpu, #battery, #idle_inhibitor,
+#wireplumber{
   padding-left: 5px;
   padding-right: 15px;
   color: #1e1e2e;
 }
 
+#idle_inhibitor {
+  background: #f5c2e7;
+}
+
 #network {
-  background: #74c7ec;
+  background: #f2cdcd;
+}
+
+#wireplumber {
+  background: #89dceb;
 }
 
 #cpu, #memory {
-  background-color: #f5c2e7;
+  background: #cba6f7;
 }
 
 #battery {
-  background-color: #f9e2af;
+  background: #b4befe;
 }
 
 #battery.charging {
-  background-color: #a6e3a1;
-}
-
-#idle_inhibitor {
-  background-color: #b4befe;
+  background: #a6e3a1;
 }
 
 #network.disconnected, #battery.critical, #cpu.critical, #memory.critical {

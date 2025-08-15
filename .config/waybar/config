@@ -1,42 +1,59 @@
 {
   "layer": "top",
-  "modules-left": ["sway/mode"],
+  "modules-left": ["idle_inhibitor", "network", "sway/mode"],
   "modules-center": ["clock"],
-  "modules-right": ["network", "cpu", "memory", "battery","idle_inhibitor"],
-
+  "modules-right": ["wireplumber#source", "wireplumber#sink", "cpu", "memory", "battery"],
 
   "clock": {
-      "format": "{:%a. %d %b  %H:%M}"
+    "tooltip": false,
+    "format": "{:%a. %d %b  %H:%M}"
   },
   "network": {
+    "tooltip": false,
     "interface": "wlp3s0",
     "format": "{ifname}",
+    "format-ethernet": "{ifname} ",
     "format-wifi": "{essid} ({signalStrength}%) ",
     "format-disconnected": "Disconnected !",
     "max-length": 50
   },
   "cpu": {
     "interval": 10,
-    "format": "{}% ",
+    "format": "{load}% ",
     "max-length": 10,
     "states": {"critical": 90}
   },
   "memory": {
+    "tooltip": false,
     "interval": 30,
     "format": "{}% ",
     "max-length": 10,
     "states": {"critical": 90}
   },
   "battery": {
-      "format": "{capacity}% {icon}",
-      "format-icons": ["", "", "", "", ""],
-      "states": {"critical": 15},
+    "tooltip": false,
+    "format": "{capacity}% {icon}",
+    "format-icons": ["", "", "", "", ""],
+    "states": {"critical": 15},
   },
   "idle_inhibitor": {
+  "tooltip": false,
   "format": "{icon}",
   "format-icons": {
     "activated": "",
     "deactivated": ""
     }
+  },
+  "wireplumber#sink": {
+    "tooltip": false,
+    "node-type": "Audio/Source",
+    "format": "{volume}% ",
+    "format-muted": ""
+  },
+  "wireplumber#source": {
+    "tooltip": false,
+    "format": "{volume}% {icon}",
+    "format-muted": "",
+    "format-icons": ["", "", ""]
   }
 }

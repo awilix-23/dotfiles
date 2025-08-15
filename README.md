@@ -1,5 +1,6 @@
 # ⚙️ dotfiles 
 
+![Desktop Screenshot](./assets/desktop.png)
 An uninteresting laptop setup managed with GNU Stow 
 
 ## ✨ Overview
@@ -15,7 +16,7 @@ place using GNU Stow.
 Install `git` and `stow` using your package manager
 
 ```bash
-$ sudo pacman -S --needed git stow
+$ doas pacman -S --needed git stow
 ```
 
 ## 🚀 Installation
