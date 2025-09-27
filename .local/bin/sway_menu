@@ -13,7 +13,7 @@ case ${SELECTED} in
         pkill wlsunset
         exit 0
       fi
-      wlsunset -g 0.65 & disown
+      wlsunset -g 0.8 & disown
       break ;;
     "Toggle_Display")
       swaymsg 'output "LVDS-1" toggle'

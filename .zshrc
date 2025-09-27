@@ -17,6 +17,7 @@ promptinit
 PROMPT='%F{1}[%f%F{6}%n%f%F{1}@%m%f %F{3}%2~%f%F{1}]%f%F{3}%#%f '
 
 eval "$(zoxide init zsh)"
+eval "$(luarocks path --bin)"
 
 PLUGIN_DIR=/usr/share/zsh/plugins
 source ~/.zsh_aliases

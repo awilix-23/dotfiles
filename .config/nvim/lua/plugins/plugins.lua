@@ -30,23 +30,38 @@ return {
     }
   },
 
-  -- also code this one 
+  -- also code this one, eventually
   { "m4xshen/autoclose.nvim",
     name = "autoclose"
   },
 
-  { "vimwiki/vimwiki",
-    name = "vimwiki",
-    init = function()
-      vim.g.vimwiki_list = {{path = '/wiki'}}
-    end
-  },
+  { "ThePrimeagen/harpoon",
+    name = "harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      local harpoon = require("harpoon")
+      local kset = vim.keymap.set
+      harpoon:setup()
+      kset('n', '<leader>a', function()
+        harpoon:list():add()
+        end)
+      kset('n', '<leader>e', function()
+        harpoon.ui:toggle_quick_menu(harpoon:list())
+        end)
 
-  -- Just code this yourself :)
-  -- { "theJian/vim-invert-number-row",
-  --   name = "invert-numrow",
-  --   init = function()
-  --     vim.g.invertmode = 'i'
-  --   end
-  -- }
+      kset('n', '<leader>h', function()
+        harpoon:list():select(1)
+        end)
+      kset('n', '<leader>j', function()
+        harpoon:list():select(2)
+        end)
+      kset('n', '<leader>k', function()
+        harpoon:list():select(3)
+        end)
+      kset('n', '<leader>l', function()
+        harpoon:list():select(4)
+        end)
+    end
+  }
 }

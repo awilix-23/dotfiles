@@ -2,7 +2,7 @@ kset = vim.keymap.set
 vim.g.mapleader = ' '
 
 kset('n', ';', ':')
-kset('n', '<leader>e', vim.cmd.Ex)
+kset('n', '<leader>f', vim.cmd.Ex)
 kset('n', '<leader>c', vim.cmd.make)
 
 kset('v', '<leader>y', '"+y')

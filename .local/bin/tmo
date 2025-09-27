@@ -11,7 +11,6 @@ SESSION=$(find \
   -mindepth 1 -maxdepth 1 -type d -not -path '*\/.*'| fzf \
   --preview='echo "Current sessions:" && tmux list-sessions' --height 50%)
 if [[ -z ${SESSION} ]]; then
-  echo "No session selected"
   exit 1
 fi
 
@@ -19,6 +18,8 @@ SESSION_NAME=$(basename ${SESSION} | cut -d "_" -f 1)
 SESSION_EXISTS=$(tmux list-sessions -F \#S | grep "${SESSION_NAME}")
 if [[ -z ${SESSION_EXISTS} ]]; then
   tmux new-session -ds ${SESSION_NAME} -c ${SESSION}
+  tmux send-keys -t ${SESSION_NAME} 'nvim' C-m
+  tmux new-window -t ${SESSION_NAME} -c ${SESSION}
 fi
 
 tmux switch-client -t ${SESSION_NAME}

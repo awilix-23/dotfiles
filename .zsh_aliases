@@ -15,3 +15,5 @@ alias conn='nmcli connection show'
 alias wifi='nmcli device wifi connect'
 alias tkill='tmux kill-session -t'
 alias stow='stow -t ~'
+
+source ~/.local/chemtools/aliases

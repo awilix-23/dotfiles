@@ -4,10 +4,9 @@
 #   + Mod4 = Logo key ; Mod1 = Alt
 #   + Pass the file command to swaymsg so that the resulting window can be
 #     opened on the original workspace that the command was run on.
-#   + Name of outputs: `swaymsg -t get_outputs`
-#   + Name of inputs: `swaymsg -t get_inputs`
 #   + Sway has a scratchpad, don't have a use for it as of now
-################################################################# Initialization
+################################################################################
+# Initialization
 include /etc/sway/config.d/*
 include workspace_rules
 include clamshell
@@ -41,7 +40,8 @@ floating_maximum_size 1280 x 720
 floating_minimum_size 800 x 450
 
 font pango:monospace 12
-########################################################################## Input
+################################################################################
+# Input
 input "2:14:SynPS/2_Synaptics_TouchPad" {
     dwt enabled
     tap disabled
@@ -53,14 +53,21 @@ input "type:keyboard" {
     xkb_options caps:swapescape,compose:lwin
     xkb_numlock enable
 }
-################################################################### Key bindings
+################################################################################
+# Key bindings
+bindsym $mod+f fullscreen
+bindsym $mod+b splith
+bindsym $mod+v splitv
+
+# bindsym $mod+w layout tabbed
+
+# bindsym $mod+Space floating toggle
+# bindsym $mod+Shift+Space focus mode_toggle
+# bindsym $mod+a focus parent
+
 bindsym $mod+Shift+Escape exec swaynag -t warning -m 'You pressed the exit \
   shortcut. Do you really want to exit sway? This will end your Wayland \
   session.' -B 'Yes, exit sway' 'swaymsg exit'
-
-bindsym F1 exec $term -T "float" -e pass_menu
-# bindsym F2 exec $term -T "float" -e newsboat
-bindsym F3 exec sway_menu
 
 bindsym F5 exec $term -T "float" -e ncmpcpp
 bindsym F6 exec mpc toggle
@@ -72,6 +79,8 @@ bindsym $mod+Shift+c reload
 bindsym $mod+q exec $term
 bindsym $mod+c kill
 
+bindsym $mod+p exec $term -T "float" -e pass_menu
+bindsym $mod+s exec sway_menu
 bindsym $mod+e exec explorer
 
 bindsym Print exec grim -g "$(slurp)" ~/Pictures/screenshot.png
@@ -86,16 +95,15 @@ bindsym xF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
 bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym XF86MonBrightnessUp exec brightnessctl set 5%+
 
-# floating_modifier $mod normal
-# bindsym $mod+Shift+$left move left
-# bindsym $mod+Shift+$down move down
-# bindsym $mod+Shift+$up move up
-# bindsym $mod+Shift+$right move right
+# bindsym $mod+$left focus left
+# bindsym $mod+$down focus down
+# bindsym $mod+$up focus up
+# bindsym $mod+$right focus right
 
-bindsym $mod+$left focus left
-bindsym $mod+$down focus down
-bindsym $mod+$up focus up
-bindsym $mod+$right focus right
+bindsym $mod+h workspace number 1
+bindsym $mod+j workspace number 2
+bindsym $mod+k workspace number 3
+bindsym $mod+l workspace number 4
 
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
@@ -118,18 +126,6 @@ bindsym $mod+Shift+7 move container to workspace number 7
 bindsym $mod+Shift+8 move container to workspace number 8
 bindsym $mod+Shift+9 move container to workspace number 9
 bindsym $mod+Shift+0 move container to workspace number 10
-
-bindsym $mod+f fullscreen
-bindsym $mod+b splith
-bindsym $mod+v splitv
-
-# bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-# bindsym $mod+e layout toggle split
-
-# bindsym $mod+Space floating toggle
-# bindsym $mod+Shift+Space focus mode_toggle
-# bindsym $mod+a focus parent
 
 mode "resize" {
   bindsym $left resize shrink width 10px
