@@ -1,0 +1,36 @@
+#!/bin/sh
+################################################################################
+help() {
+    echo "Usage: wmenu [options...]"
+    echo "Wrapper for wmenu and wmenu-run"
+    echo
+    echo "Optional arguments:"
+    echo "-h, --help                Display this message again :3"
+    echo "-r, --run                 Use wmenu-run instead"
+    echo "-p, --prompt  [STRING]    Custom prompt to use"
+    echo
+}
+
+while :; do 
+  case "$1" in
+    -h|--help) help; exit 0 ;;
+    -r|--run) run="true" ;;
+    -p|--prompt) prompt="$2"; shift ;;
+    --) shift; break ;;
+    -?*) printf 'Ignoring unknown option: %s\n' "$1" >&2 ;;
+    *) break ;;
+  esac
+  shift
+done
+################################################################################
+flags="-i -N 1e1e2e -n cdd6f4 -M 89dceb -m 1e1e2e -S f5c2e7 -s 1e1e2e"
+prompt=${prompt:="wmenu"}
+run=${run:="false"}
+
+if [ ${run} = "true" ]; then
+  exec /usr/bin/wmenu-run ${flags} -f "RobotoMonoNerdFont 11" -p "[${prompt}] "
+else
+  exec /usr/bin/wmenu ${flags} -f "RobotoMonoNerdFont 11" -p "[${prompt}] "
+fi
+
+exit 0

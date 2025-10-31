@@ -1,8 +1,6 @@
-vim.lsp.enable('python-lsp-server')
-
-vim.lsp.config['python-lsp-server'] = {
-  cmd = {'pylsp'},
-  filetypes = {'python'},
-  root_markers = {'.py'},
-  settings = {}
+vim.lsp.config['clangd'] = {
+  cmd = { 'clangd' },
+  filetypes = { 'c', 'h' },
 }
+
+vim.lsp.enable('clangd')

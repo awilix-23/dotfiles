@@ -1,0 +1,54 @@
+#!/bin/sh
+################################################################################
+pkg_dir=/opt
+
+help() {
+    echo "Usage: aur [options...] <package_name>"
+    echo "Manage AUR package; installs package by default"
+    echo
+    echo "Optional arguments:"
+    echo "-h, --help          Display this message again :3"
+    echo "-S                  Install package (default behaviour)"
+    echo "-R, --remove        Remove package (who would've guessed ?)"
+    echo "-s, --skip          Skip PKGBUILD info"
+    echo "-p, --pull-only     Only pull the git repo, do not build"
+    echo
+}
+
+while :; do 
+  case "$1" in
+    -h|--help) help; exit 0 ;;
+    -S) action=install; shift ;;
+    -R|--remove) action=remove; shift ;;
+    -p|--pull-only) pull_only=true; shift ;;
+    -s|--skip) skip=true; shift ;;
+    --) shift; break ;;
+    -?*) printf 'Ignoring unknown option: %s\n' "$1" >&2 ;;
+    *) break ;;
+  esac
+  shift
+done
+################################################################################
+[ -z "$1" ] && echo "Package name required" >&2 && exit 1
+
+pkg_name=$1
+skip=${skip:=false}
+pull_only=${pull_only:=false}
+action=${action:=install}
+
+if [ ! -f ${pkg_dir}/${pkg_name}/PKGBUILD ]; then
+  git_link="https://aur.archlinux.org/${pkg_name}.git"
+  git clone "${git_link}" "${pkg_dir}/${pkg_name}"
+fi
+
+[ "${pull_only}" = "true" ] && exit 0
+[ "${skip}" = "false" ] && less "${pkg_dir}/${pkg_name}/PKGBUILD"
+
+echo "Proceed with install ? [Y/n]"
+read response
+
+if [ "${response}" = y ] || [ -z "${response}" ]; then
+  makepkg --dir "${pkg_dir}/${pkg_name}" -sirc && exit 0
+else
+  echo "Cancelling install" && exit 0
+fi

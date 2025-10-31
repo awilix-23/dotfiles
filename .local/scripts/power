@@ -1,0 +1,44 @@
+#!/bin/sh
+################################################################################
+pwr_dir=/sys/devices/system/cpu
+
+help() {
+    echo "Usage: power [options...] <energy_profile>"
+    echo "Set Intel EPB"
+    echo
+    echo "Optional arguments:"
+    echo "-h, --help            Display this message again :3"
+    echo "-s, --status          Check current power profile"
+    echo "-i, --int     <int>   Use int value instead of char[] (Range: 0--15)"
+    echo
+    echo "Valid energy profiles:"
+    echo "performance, medium-performance, normal/default, medium-power, power"
+    echo
+}
+
+while :; do
+  case $1 in
+    -h|--help) help; exit 0 ;;
+    -s|--status) cat ${pwr_dir}/cpu0/power/energy_perf_bias; exit 0;;
+    -i|--int) epb=$2; shift ;;
+    --) shift; break ;;
+    -?*) printf 'Ignoring unknown option: %s\n' "$1" >&2 ;;
+    *) break ;;
+  esac
+  shift
+done
+################################################################################
+if [ -z "${epb}" ]; then
+  [ -z "$1" ] && echo "Energy profile required" >&2 && exit 1
+  case "$1" in
+    "perf"|"performance") epb=0 ;;
+    "mperf"|"medium-performance") epb=4 ;;
+    "normal"|"default") epb=6 ;;
+    "mpow"|"medium-power") epb=8 ;;
+    "pow"|"power") epb=15 ;;
+    *) epb=6; echo "Unknown profile; defaulting" >&2 ;;
+  esac
+fi
+
+echo ${epb} | doas tee ${pwr_dir}/cpu*/power/energy_perf_bias
+exit 0

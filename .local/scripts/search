@@ -1,0 +1,41 @@
+#!/bin/sh
+################################################################################
+help() {
+    echo "Usage: search [options...] <query>"
+    echo "Send search query to qutebrowser"
+    echo
+    echo "Optional arguments:"
+    echo "-h, --help              Display this message again :3"
+    echo "-e, --engine  <engine>  Use engine (Default: DuckDuckGo)"
+    echo
+    echo "Current engines:"
+    echo "aw  =>  Arch Wiki"
+    echo "gs  =>  Google Scholar"
+    echo "wi  =>  Wikipedia"
+    echo
+}
+
+while :; do
+  case "$1" in
+    -h|--help) help; exit 0 ;;
+    -e|--engine) engine=$2; shift ;;
+    --) shift; break ;;
+    -?*) printf 'Ignoring unknown option: %s\n' "$1" >&2 ;;
+    *) break ;;
+  esac
+  shift
+done
+################################################################################
+engine="${engine:=dg}"
+case ${engine} in
+  "aw") engine="https://wiki.archlinux.org/?search" ;;
+  "wi") engine="https://en.wikipedia.org/w/index.php?fulltext=1&search" ;;
+  "gs") engine="https://scholar.google.com/scholar?q" ;;
+  "dg") engine="https://duckduckgo.com/?q" ;;
+  *) echo "Unknown engine" >&2 && help && exit 1 ;;
+esac
+
+query="$@"
+[ -z ${query} ] && echo "No query provided" >&2 && exit 1
+
+qutebrowser --target tab "${engine}=${query}" && exit 0

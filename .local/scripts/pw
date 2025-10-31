@@ -1,0 +1,29 @@
+#!/bin/sh
+################################################################################
+help() {
+    echo "Usage: pw [options...]"
+    echo "Interactively select password"
+    echo
+    echo "Optional arguments:"
+    echo "-h, --help          Display this message again :3"
+    echo
+}
+
+while :; do 
+  case "$1" in
+    -h|--help) help; exit 0 ;;
+    --) shift; break ;;
+    -?*) printf 'Ignoring unknown option: %s\n' "$1" >&2 ;;
+    *) break ;;
+  esac
+  shift
+done
+################################################################################
+pw_dir=~/.password-store
+
+selected=$(find ${pw_dir} -name "*.gpg" | cut -d "/" -f 5- | cut -d "." -f 1 | \
+  fzf --prompt="[pass] ")
+
+[ -z ${selected} ] && exit 0
+
+pass -c ${selected} && exit 0

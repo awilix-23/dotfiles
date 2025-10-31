@@ -1,5 +1,5 @@
 typeset -U path PATH
-path=(~/.local/chemtools/bin ~/.local/chemtools/scripts ~/.local/bin $path)
+path=(~/.local/chemtools/bin ~/.local/chemtools/scripts ~/.local/scripts $path)
 export PATH
 
 export MANPAGER='nvim +Man!'

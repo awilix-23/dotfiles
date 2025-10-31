@@ -22,8 +22,9 @@ set $down j
 set $up k
 set $right l
 
+# Wrapper in use, it must be listed first in $PATH
+set $menu wmenu -r
 set $term foot
-set $menu wmenu_wrapper -r
 
 exec swayidle -w \
   timeout 600 'swaylock -f -c 000000' \
@@ -31,7 +32,7 @@ exec swayidle -w \
   resume 'swaymsg "output * power on"' \
   before-sleep 'swaylock -f -c 000000'
 
-output * bg ~/Desktop/dotfiles/assets/backward_awilix.png fill
+output * bg ~/src/dotfiles/assets/backward_awilix.png fill
 
 default_border pixel 2
 client.focused $green $base $text $green $green
@@ -79,9 +80,8 @@ bindsym $mod+Shift+c reload
 bindsym $mod+q exec $term
 bindsym $mod+c kill
 
-bindsym $mod+p exec $term -T "float" -e pass_menu
-bindsym $mod+s exec sway_menu
-bindsym $mod+e exec explorer
+bindsym $mod+p exec $term -T "float" -e pw
+# bindsym $mod+s exec sway_menu
 
 bindsym Print exec grim -g "$(slurp)" ~/Pictures/screenshot.png
 bindsym $mod+Print exec grim -g "$(slurp -p)" -t ppm - | convert - -format \

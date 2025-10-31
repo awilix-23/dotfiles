@@ -1,0 +1,42 @@
+#!/bin/sh
+################################################################################
+help() {
+    echo "Usage: tmo [options...] [session]"
+    echo "Open or create tmux sessions; default behaviour enters interactive mode"
+    echo
+    echo "Optional arguments:"
+    echo "-h, --help              Display this message again :3"
+    echo "-l, --list              List current sessions"
+    echo "-k, --kill  <session>   Kill session"
+    echo
+}
+
+while :; do 
+  case "$1" in
+    -h|--help) help; exit 0 ;;
+    -l|--list) tmux list-sessions; exit 0 ;;
+    -k|--kill) tmux kill-session -t "$2"; exit 0 ;;
+    --) shift; break ;;
+    -?*) printf 'Ignoring unknown option: %s\n' "$1" >&2 ;;
+    *) break ;;
+  esac
+  shift
+done
+################################################################################
+[ $1 ] && tmux switch-client -t $1 && exit 0
+
+session=$(find /work ~/src -mindepth 1 -maxdepth 1 -type d -not -path '*\/.*' |\
+  fzf --preview='echo "Current sessions:" && tmux list-sessions' --height 50%)
+
+[ -z ${session} ] && exit 1
+
+session_name=$(basename ${session} | cut -d "_" -f 1)
+tmux has-session -t ${session_name} 2> /dev/null
+
+if [ $? -ne 0 ]; then
+  tmux new-session -ds ${session_name} -c ${session}
+  tmux send-keys -t ${session_name} 'nvim' C-m
+  tmux new-window -t ${session_name} -c ${session}
+fi
+
+tmux switch-client -t ${session_name} && exit 0
