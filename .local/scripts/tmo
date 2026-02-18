@@ -37,6 +37,7 @@ if [ $? -ne 0 ]; then
   tmux new-session -ds ${session_name} -c ${session}
   tmux send-keys -t ${session_name} 'nvim' C-m
   tmux new-window -t ${session_name} -c ${session}
+  tmux select-window -t 1
 fi
 
 tmux switch-client -t ${session_name} && exit 0

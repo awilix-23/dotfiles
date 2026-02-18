@@ -10,4 +10,6 @@ export GPG_TTY=$(tty)
 export XDG_CURRENT_DESKTOP=sway
 export KEYTIMEOUT=5
 
+export PASSWORD_STORE_CLIP_TIME=8
+
 export FAYE_ROOT=~/Desktop/faye

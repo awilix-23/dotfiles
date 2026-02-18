@@ -1,35 +1,37 @@
 # ⚙️ dotfiles 
 
+> An uninteresting laptop setup managed with GNU Stow 
+
 ![Desktop Screenshot](./assets/desktop.png)
-An uninteresting laptop setup managed with GNU Stow 
 
 ## ✨ Overview
 
 This repo contains my personal dotfiles — configs for shells, editors, and other
-tools I touch too often. Everything is organized by directory and symlinked into
-place using GNU Stow.
+tools I use a lot.
 
-> If it works on my machine, it might work on yours; no promises, though.
+> ⚠️ If it works on my machine, it might work on yours; no promises, though.
 
-## 📦 Requirements
+## 📦 Dependencies
 
 Install `git` and `stow` using your package manager
 
-```bash
-$ doas pacman -S --needed git stow
+```zsh
+% doas pacman -S --needed git stow
 ```
+
+*I'll add the native and foreign packages eventually*
 
 ## 🚀 Installation
 
 Clone the repository
 
-```bash
-$ git clone https://github.com/awilix-23/dotfiles.git
+```zsh
+% git clone https://github.com/awilix-23/dotfiles.git
 ```
 
-Use GNU `stow` to create symlinks
+Navigate into the directory and symlink the config files
 
-```bash
-$ cd dotfiles
-$ stow -t ~ .
+```zsh
+% cd dotfiles
+% stow -t ~ .
 ```

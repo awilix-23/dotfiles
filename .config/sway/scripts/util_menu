@@ -1,0 +1,52 @@
+#!/bin/sh
+################################################################################
+night_light() {
+  if pgrep wlsunset; then
+    pkill wlsunset
+  else
+    wlsunset -g 0.8 & disown
+  fi
+}
+
+toggle_display() {
+  swaymsg 'output "LVDS-1" toggle'
+}
+
+reload_waybar() {
+  pgrep waybar && pkill waybar
+  waybar & disown
+}
+
+retry_wifi() {
+  local wifi_device="wlp3s0"
+  local msg=$(nmcli device connect ${wifi_device} 2>&1)
+  notify-send -a "Network Manager" "${msg}"
+}
+
+record() {
+  if pgrep "wf-recorder"; then
+    pkill "wf-recorder"
+  else
+    wf-recorder -f "$(date +%FT%H-%M-%S).mkv" -g "0,0 1920x1080" \
+      -c libx265
+  fi
+}
+
+mimis() {
+  systemctl "suspend"
+}
+################################################################################
+options="NightLight\nToggleDisplay\nReloadWaybar\nRetryWifi\nSuspend"
+
+selected=$(echo "${options}" | wmenu -p "utils")
+
+case "${selected}" in
+    "NightLight") night_light; break ;;
+    "ToggleDisplay") toggle_display; break ;;
+    "ReloadWaybar") reload_waybar; break ;;
+    "RetryWifi") retry_wifi; break ;;
+    "Suspend") mimis; break ;;
+    *) exit 1 ;;
+esac
+
+exit 0
